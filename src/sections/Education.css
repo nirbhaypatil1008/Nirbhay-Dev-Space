@@ -1,0 +1,139 @@
+.education__header {
+  margin-bottom: var(--space-12);
+}
+
+.education__list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-6);
+  max-width: 800px;
+}
+
+.edu-card {
+  display: flex;
+  gap: var(--space-6);
+}
+
+.edu-card__left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-shrink: 0;
+  width: 120px;
+}
+
+.edu-card__year {
+  margin-bottom: var(--space-3);
+}
+
+.edu-card__line {
+  width: 2px;
+  flex: 1;
+  background: linear-gradient(to bottom, var(--accent-secondary), transparent);
+  min-height: 20px;
+}
+
+.edu-card__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--accent-secondary);
+  border: 2px solid var(--bg-secondary);
+  flex-shrink: 0;
+}
+
+.edu-card__body {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6) var(--space-8);
+  flex: 1;
+  transition: border-color var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out);
+}
+
+.edu-card__body:hover {
+  border-color: var(--border-accent);
+  box-shadow: var(--shadow-card-hover);
+}
+
+.edu-card__top {
+  margin-bottom: var(--space-3);
+}
+
+.edu-card__degree {
+  font-family: var(--font-serif);
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--space-1);
+}
+
+.edu-card__field {
+  font-size: var(--text-base);
+  font-weight: var(--weight-semibold);
+  color: var(--accent-secondary);
+  margin-bottom: var(--space-4);
+}
+
+.edu-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.edu-card__institution,
+.edu-card__location {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+}
+
+.edu-card__desc {
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+  color: var(--text-muted);
+}
+
+/* ============================================================
+   RESPONSIVE MEDIA QUERIES (DESKTOP UNCHANGED)
+   ============================================================ */
+@media (max-width: 680px) {
+  .edu-card {
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .edu-card__left {
+    flex-direction: row;
+    width: auto;
+    align-items: center;
+    gap: var(--space-3);
+  }
+
+  .edu-card__line,
+  .edu-card__dot {
+    display: none;
+  }
+
+  .edu-card__body {
+    padding: var(--space-5);
+  }
+
+  .edu-card__degree {
+    font-size: 1.25rem;
+  }
+
+  .edu-card__field {
+    font-size: 0.95rem;
+    margin-bottom: var(--space-3);
+  }
+
+  .edu-card__meta {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+}
