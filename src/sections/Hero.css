@@ -57,20 +57,7 @@
   min-height: calc(100vh - var(--nav-height) - 4rem);
 }
 
-/* Entrance Animations */
-.hero__content,
-.hero__portrait-area,
-.hero__actions {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity var(--duration-slower) var(--ease-out),
-              transform var(--duration-slower) var(--ease-out);
-}
-
-.hero__animate-in {
-  opacity: 1 !important;
-  transform: translateY(0) !important;
-}
+/* Entrance animations handled via Motion Primitives */
 
 /* ── Left Content (Grid Area: content) ── */
 .hero__content {
