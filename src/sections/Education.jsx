@@ -44,7 +44,7 @@ function EducationCard({ edu }) {
         </div>
 
         <h3 className="edu-card__degree">{edu.degree}</h3>
-        <p className="edu-card__field">{edu.field}</p>
+        {edu.field && <p className="edu-card__field">{edu.field}</p>}
 
         <div className="edu-card__meta">
           <div className="edu-card__institution">

@@ -1,0 +1,110 @@
+/* ============================================================
+   BOTANICAL BACKGROUND — Reference Recreation
+   Authentic organic botanical eucalyptus/foliage foliage
+   Crisp, semi-translucent, non-overlapping.
+   ============================================================ */
+
+.botanical-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+  user-select: none;
+}
+
+/* Base botanical element styles - Light Mode */
+.botanical-leaf {
+  position: absolute;
+  pointer-events: none;
+  color: #4A7255;
+  opacity: 0.22;
+  transition: opacity var(--duration-slow) var(--ease-in-out),
+              color var(--duration-slow) var(--ease-in-out);
+}
+
+.botanical-stem {
+  opacity: 0.85;
+}
+
+.botanical-leaf-blade {
+  opacity: 0.95;
+}
+
+/* ── 1. Upper-Left Large Botanical Branch ── */
+.botanical-leaf--top-left {
+  top: -10px;
+  left: -15px;
+  width: clamp(240px, 32vw, 420px);
+  height: clamp(240px, 32vw, 420px);
+}
+
+/* ── 2. Upper-Right Foliage Accent ── */
+.botanical-leaf--top-right {
+  top: -10px;
+  right: -15px;
+  width: clamp(160px, 20vw, 280px);
+  height: clamp(160px, 20vw, 280px);
+}
+
+/* ── 3. Lower-Right Botanical Branch (Beside buttons / About section) ── */
+.botanical-leaf--lower-right {
+  top: 40%;
+  right: -20px;
+  width: clamp(220px, 28vw, 380px);
+  height: clamp(260px, 32vw, 440px);
+}
+
+/* ── 4. Bottom-Left Botanical Accent ── */
+.botanical-leaf--bottom-left {
+  bottom: 4%;
+  left: -20px;
+  width: clamp(180px, 22vw, 320px);
+  height: clamp(180px, 22vw, 320px);
+}
+
+/* ── Dark Mode ──
+   Uses #829F88 (muted sage specified in design specification) */
+[data-theme="dark"] .botanical-leaf {
+  color: #829F88;
+  opacity: 0.20;
+}
+
+[data-theme="dark"] .botanical-stem {
+  opacity: 0.8;
+}
+
+[data-theme="dark"] .botanical-leaf-blade {
+  opacity: 0.95;
+}
+
+/* ── Mobile responsiveness (<= 768px down to 320px) ── */
+@media (max-width: 768px) {
+  .botanical-leaf--top-left {
+    top: -8px;
+    left: -12px;
+    width: 210px;
+    height: 210px;
+  }
+
+  .botanical-leaf--top-right {
+    top: -5px;
+    right: -10px;
+    width: 140px;
+    height: 140px;
+  }
+
+  .botanical-leaf--lower-right {
+    top: 36%;
+    right: -15px;
+    width: 200px;
+    height: 250px;
+  }
+
+  .botanical-leaf--bottom-left {
+    bottom: 2%;
+    left: -15px;
+    width: 150px;
+    height: 150px;
+  }
+}

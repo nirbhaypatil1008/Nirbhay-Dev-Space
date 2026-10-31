@@ -167,7 +167,17 @@
   }
 }
 
+@media (max-width: 768px) {
+  #about.section {
+    padding-top: var(--space-8);
+  }
+}
+
 @media (max-width: 540px) {
+  #about.section {
+    padding-top: var(--space-6);
+  }
+
   .about__body {
     font-size: var(--text-base);
     margin-bottom: var(--space-6);

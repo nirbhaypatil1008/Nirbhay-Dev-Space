@@ -18,6 +18,16 @@ export const profile = {
 
 export const education = [
   {
+    id: 'puc-alvas',
+    degree: 'Pre-University Course (PUC)',
+    institution: "Alva's Pre-University College",
+    location: 'Moodbidri, Karnataka, India',
+    status: 'Completed',
+    year: '2023 – 2024',
+    description:
+      "Completed my Pre-University education at Alva's Pre-University College, Moodbidri, gaining knowledge and building a strong foundation for higher studies.",
+  },
+  {
     id: 'be-ise',
     degree: 'Bachelor of Engineering (BE)',
     field: 'Information Science and Engineering',
@@ -50,6 +60,17 @@ export const skills = [
   {
     category: 'Development Tools & Workflow',
     items: ['Git', 'GitHub', 'VS Code', 'Postman'],
+  },
+  {
+    category: 'DATA SCIENCE & ANALYTICS',
+    items: [
+      'Data Analysis',
+      'Data Cleaning',
+      'Data Visualization',
+      'Data Interpretation',
+      'Statistical Analysis',
+      'Data Processing',
+    ],
   },
 ];
 

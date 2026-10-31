@@ -5,6 +5,7 @@ import { ThemeProvider } from './context/ThemeContext';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import AIAssistant from './components/AIAssistant';
+import BotanicalBackground from './components/BotanicalBackground';
 import Home from './pages/Home';
 import ProjectDetail from './pages/ProjectDetail';
 import { PrivacyPolicy, TermsAndConditions } from './pages/Legal';
@@ -30,6 +31,7 @@ export default function App() {
           <ScrollToTop />
           <a href="#main-content" className="skip-link">Skip to main content</a>
           <Navbar />
+          <BotanicalBackground />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/projects/:id" element={<ProjectDetail />} />

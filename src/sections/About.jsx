@@ -12,7 +12,7 @@ export default function About() {
         <div ref={ref} className="about__grid">
           {/* Text side */}
           <div className="about__text">
-            <p className="section-label">About Me</p>
+            <p className="section-label">ABOUT ME</p>
             <h2 className="section-title">Turning ideas into<br />working software.</h2>
             <div className="divider" />
 

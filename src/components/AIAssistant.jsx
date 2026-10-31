@@ -118,13 +118,36 @@ export default function AIAssistant() {
     }
   }, [input]);
 
-  // Clean speech synthesis on unmount or close
+  // Clean speech synthesis & recognition on close or unmount
   useEffect(() => {
-    if (!isOpen && window.speechSynthesis) {
-      window.speechSynthesis.cancel();
-      setSpeakingMessageId(null);
+    if (!isOpen) {
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+        setSpeakingMessageId(null);
+      }
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch {}
+        recognitionRef.current = null;
+        setIsListening(false);
+      }
     }
   }, [isOpen]);
+
+  useEffect(() => {
+    return () => {
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.abort();
+        } catch {}
+        recognitionRef.current = null;
+      }
+      if (window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
+    };
+  }, []);
 
 
 
@@ -238,10 +261,53 @@ export default function AIAssistant() {
       updatedTitle = content.length > 32 ? content.substring(0, 32) + '…' : content;
     }
 
+    // Check for direct answer first (bypasses Gemini API for known portfolio questions)
+    const directResult = findDirectAnswer(content, mode);
+    if (directResult) {
+      const detectedProjects = [...(directResult.projects || [])];
+      projects.forEach((p) => {
+        if (
+          (directResult.answer.toLowerCase().includes(p.title.toLowerCase()) ||
+            directResult.answer.includes(p.id)) &&
+          !detectedProjects.includes(p.id)
+        ) {
+          detectedProjects.push(p.id);
+        }
+      });
+
+      const directAssistantMsg = {
+        id: generateId('msg'),
+        role: 'assistant',
+        source: 'direct',
+        content: directResult.answer,
+        timestamp: Date.now(),
+        feedback: null,
+        detectedProjects,
+        isPartial: false,
+      };
+
+      const finalMessages = [...newMessages, directAssistantMsg];
+      setMessages(finalMessages);
+
+      const savedConv = {
+        ...currentConversation,
+        title: updatedTitle,
+        mode,
+        messages: finalMessages,
+        updatedAt: Date.now(),
+      };
+      saveConversation(savedConv);
+      setConversations((prev) =>
+        prev.map((c) => (c.id === savedConv.id ? savedConv : c))
+      );
+      return;
+    }
+
     const assistantMsgId = generateId('msg');
     const assistantMsg = {
       id: assistantMsgId,
       role: 'assistant',
+      source: 'gemini',
       content: '',
       timestamp: Date.now(),
       feedback: null,
@@ -341,6 +407,7 @@ export default function AIAssistant() {
 
       const finalAssistantMsg = {
         ...assistantMsg,
+        source: 'gemini',
         content: accumulatedText || 'I am ready to help with any questions about Nirbhay.',
         isPartial: false,
         detectedProjects,
@@ -482,7 +549,12 @@ export default function AIAssistant() {
     }
 
     if (isListening) {
-      recognitionRef.current?.stop();
+      if (recognitionRef.current) {
+        try {
+          recognitionRef.current.stop();
+        } catch {}
+        recognitionRef.current = null;
+      }
       setIsListening(false);
       return;
     }
@@ -490,11 +562,8 @@ export default function AIAssistant() {
     try {
       const recognition = new SpeechRecognition();
       recognition.continuous = false;
-      recognition.interimResults = true;
+      recognition.interimResults = false;
       recognition.lang = 'en-US';
-
-      // Keep track of input value before this speech recognition session started
-      const baseInput = input.trim();
 
       recognition.onstart = () => {
         setIsListening(true);
@@ -502,21 +571,19 @@ export default function AIAssistant() {
       };
 
       recognition.onresult = (event) => {
-        let finalTranscript = '';
-        let interimTranscript = '';
-
-        for (let i = 0; i < event.results.length; i++) {
-          const transcriptChunk = event.results[i][0].transcript;
-          if (event.results[i].isFinal) {
-            finalTranscript += transcriptChunk;
-          } else {
-            interimTranscript += transcriptChunk;
+        let transcript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          if (event.results[i] && event.results[i][0]) {
+            transcript += event.results[i][0].transcript;
           }
         }
 
-        const recognizedText = (finalTranscript + interimTranscript).trim();
-        if (recognizedText) {
-          setInput(baseInput ? `${baseInput} ${recognizedText}` : recognizedText);
+        const cleanTranscript = transcript.trim();
+        if (cleanTranscript) {
+          setInput((prev) => {
+            const base = prev.trim();
+            return base ? `${base} ${cleanTranscript}` : cleanTranscript;
+          });
         }
       };
 
@@ -528,10 +595,12 @@ export default function AIAssistant() {
           setSpeechError(`Voice input error: ${event.error}`);
         }
         setIsListening(false);
+        recognitionRef.current = null;
       };
 
       recognition.onend = () => {
         setIsListening(false);
+        recognitionRef.current = null;
       };
 
       recognitionRef.current = recognition;
@@ -540,6 +609,7 @@ export default function AIAssistant() {
       console.error('Voice input error:', err);
       setSpeechError('Could not start voice recognition.');
       setIsListening(false);
+      recognitionRef.current = null;
     }
   };
 

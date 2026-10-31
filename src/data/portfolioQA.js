@@ -448,20 +448,23 @@ He is based in Bengaluru, Karnataka, India and is eager to contribute to collabo
       );
     },
     getAnswer: (mode) => {
-      const edu = education[0];
-      if (mode === 'recruiter') {
-        return `**Academic Background:**
+      const beEdu = education.find((e) => e.id === 'be-ise') || education[0];
+      const pucEdu = education.find((e) => e.id === 'puc-alvas');
 
-* **Degree:** ${edu.degree}
-* **Field:** ${edu.field}
-* **Institution:** ${edu.institution}, ${edu.location}
-* **Timeline:** ${edu.year} (${edu.status})
-* **Curriculum Focus:** Data Structures & Algorithms, Database Management Systems, Operating Systems, Computer Networks, and Full-Stack Web Technologies.`;
+      if (mode === 'recruiter') {
+        let details = `**Academic Background:**\n\n* **Degree:** ${beEdu.degree}\n* **Field:** ${beEdu.field}\n* **Institution:** ${beEdu.institution}, ${beEdu.location}\n* **Timeline:** ${beEdu.year} (${beEdu.status})\n* **Curriculum Focus:** Data Structures & Algorithms, Database Management Systems, Operating Systems, Computer Networks, and Full-Stack Web Technologies.`;
+        if (pucEdu) {
+          details += `\n\n* **Pre-University:** ${pucEdu.degree}\n* **Institution:** ${pucEdu.institution}, ${pucEdu.location}\n* **Timeline:** ${pucEdu.year} (${pucEdu.status})`;
+        }
+        return details;
       }
 
-      return `Nirbhay Patil is pursuing his **${edu.degree} in ${edu.field}** at **${edu.institution}** in Bengaluru, Karnataka (${edu.year}).
-
-His academic focus encompasses core computer science fundamentals including algorithms, data structures, relational databases, and modern web application development.`;
+      let resp = `Nirbhay Patil is pursuing his **${beEdu.degree} in ${beEdu.field}** at **${beEdu.institution}** in Bengaluru, Karnataka (${beEdu.year}).`;
+      if (pucEdu) {
+        resp += ` Prior to this, he completed his **${pucEdu.degree}** at **${pucEdu.institution}**, Moodbidri (${pucEdu.year}).`;
+      }
+      resp += `\n\nHis academic focus encompasses core computer science fundamentals including algorithms, data structures, relational databases, and modern web application development.`;
+      return resp;
     },
   },
 
