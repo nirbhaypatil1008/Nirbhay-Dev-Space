@@ -11,7 +11,7 @@ export const profile = {
   email: 'nirbhyudaykumarpatil@gmail.com',
   github: 'https://github.com/nirbhaypatil1008',
   linkedin: 'https://www.linkedin.com/in/nirbhay-patil-b821a430b',
-  resumeUrl: '/resume.pdf', // Place your resume PDF in the public/ folder
+  resumeUrl: 'resume_coming_soon.pdf', // Place your resume PDF in the public/ folder
   about: `I'm Nirbhay Patil, an Information Science and Engineering student at SJB Institute of Technology, Bengaluru, aspiring to become a software developer. I'm interested in full-stack development, backend engineering, databases, and practical AI integration, and I enjoy building projects that solve real-world problems. I'm continuously improving my technical skills through hands-on projects and problem-solving.`,
   availability: 'Open to entry-level opportunities and internships',
 };
